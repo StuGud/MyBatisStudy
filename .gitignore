@@ -1,0 +1,7 @@
+# Project exclude paths
+/Demo1/target/
+/Demo2/target/
+/Demo3_Annotation/target/
+/Demo4_ComplexQuery1/target/
+/Demo5_ComplexQuery2/target/
+/Demo6_DynamicSQL/target/

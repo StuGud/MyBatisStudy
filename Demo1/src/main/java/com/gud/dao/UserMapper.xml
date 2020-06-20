@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.com.gud.dao.UserMapper">
+    <!--id对应方法名-->
+    <select id="getUserList" resultType="com.com.gud.pojo.User">
+    select * from user
+  </select>
+    <select id="getUserById" resultType="com.com.gud.pojo.User" parameterType="int">
+        select * from user by id = #{id}
+    </select>
+    <insert id="insertUser" parameterType="com.com.gud.pojo.User">
+        insert into user (id,name,pwd) values (#{id},#{name},#{pwd})
+    </insert>
+    <update id="updateUser" parameterType="com.com.gud.pojo.User" >
+        update user set name=#{name},pwd=#{pwd} where id=#{id}
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+    <insert id="insertUserByMap" parameterType="map">
+        insert into user (id,name,pwd) values (#{mapId},#{mapName},#{mapPwd})
+    </insert>
+
+    <select id="getUserLike" resultType="com.com.gud.pojo.User">
+        select * from user where name like "%"#{value}"%"
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gud.dao.BlogMapper">
+
+    <select id="queryBlogIF" parameterType="map" resultType="Blog">
+        select * from blog where 1=1
+        <if test="title!=null">
+            and title=#{title}
+        </if>
+        <if test="author!=null">
+            and author=#{author}
+        </if>
+    </select>
+
+    <!--<where>标签 取代where 1=1 -->
+    <select id="queryBlogChoose" parameterType="map" resultType="Blog">
+        select * from blog
+        <where>
+            <choose>
+                <when test="title!=null">
+                    title =#{title}
+                </when>
+                <when test="author !=null">
+                    and author =#{author}
+                </when>
+                <otherwise>
+                    and views>2000
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="updateBlog" parameterType="map" >
+        update blog
+        <set>
+            <if test="title!=null">title =#{title},</if>
+            <if test="author!=null">author =#{author},</if>
+            <if test="views!=null">views =#{views},</if>
+        </set>
+        where id=#{id}
+    </select>
+</mapper>
