@@ -16,6 +16,7 @@
         <module>Demo4_ComplexQuery1</module>
         <module>Demo5_ComplexQuery2</module>
         <module>Demo6_DynamicSQL</module>
+        <module>Demo7_Cache</module>
     </modules>
 
     <dependencies>

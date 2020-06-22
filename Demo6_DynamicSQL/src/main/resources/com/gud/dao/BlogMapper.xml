@@ -4,14 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gud.dao.BlogMapper">
 
-    <select id="queryBlogIF" parameterType="map" resultType="Blog">
-        select * from blog where 1=1
+    <sql id="if-title-author">
         <if test="title!=null">
             and title=#{title}
         </if>
         <if test="author!=null">
             and author=#{author}
         </if>
+    </sql>
+
+    <select id="queryBlogIF" parameterType="map" resultType="Blog">
+        select * from blog where 1=1
+        <include refid="if-title-author"></include>
     </select>
 
     <!--<where>标签 取代where 1=1 -->
@@ -40,5 +44,41 @@
             <if test="views!=null">views =#{views},</if>
         </set>
         where id=#{id}
+    </select>
+
+    <!--实现一-->
+    <!--<select id="queryBlogForEach" parameterType="map" resultType="Blog">-->
+    <!--    select * from blog-->
+    <!--    <where>-->
+    <!--        <foreach item="id" index="index" collection="ids"-->
+    <!--                 open="(" separator="or" close=")">-->
+    <!--            id=#{id}-->
+    <!--        </foreach>-->
+    <!--    </where>-->
+    <!--</select>-->
+
+
+    <!--实现二-->
+    <!--<select id="queryBlogForEach" parameterType="map" resultType="Blog">-->
+    <!--    select * from blog-->
+    <!--    where id in-->
+    <!--        <foreach item="id" index="index" collection="ids"-->
+    <!--                 open="(" separator="," close=")">-->
+    <!--            #{id}-->
+    <!--        </foreach>-->
+    <!--</select>-->
+
+    <!--实现二的改进-->
+    <select id="queryBlogForEach" parameterType="map" resultType="Blog">
+        select * from blog
+        where
+        <if test="ids!=null and ids.size()>0">
+            id in
+            <foreach item="id" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        <if test="ids!=null and ids.size()==0">1=0</if>
     </select>
 </mapper>

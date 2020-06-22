@@ -25,4 +25,9 @@ public interface BlogMapper {
      * 更新博客
      */
     Integer updateBlog(Map map);
+
+    /**
+     * foreach的使用
+     */
+    List<Blog> queryBlogForEach(Map map);
 }

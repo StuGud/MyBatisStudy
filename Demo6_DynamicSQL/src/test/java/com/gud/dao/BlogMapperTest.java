@@ -6,8 +6,10 @@ import com.gud.utils.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +24,7 @@ public class BlogMapperTest {
         SqlSession sqlSession = MyBatisUtil.getSqlSession();
         BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
 
-        Blog blog=new Blog();
+        Blog blog = new Blog();
         blog.setId(IDUtil.getId());
         blog.setTitle("HelloWorld");
         blog.setAuthor("gud");
@@ -51,8 +53,8 @@ public class BlogMapperTest {
         SqlSession sqlSession = MyBatisUtil.getSqlSession();
         BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
         HashMap<String, Object> map = new HashMap();
-        map.put("title","blog1");
-        map.put("author","gud");
+        map.put("title", "blog1");
+        map.put("author", "gud");
         blogMapper.queryBlogIF(map);
         sqlSession.close();
     }
@@ -62,7 +64,7 @@ public class BlogMapperTest {
         SqlSession sqlSession = MyBatisUtil.getSqlSession();
         BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
         HashMap<String, Object> map = new HashMap();
-        map.put("title","blog1");
+        map.put("title", "blog1");
         blogMapper.queryBlogChoose(map);
         sqlSession.close();
     }
@@ -72,9 +74,26 @@ public class BlogMapperTest {
         SqlSession sqlSession = MyBatisUtil.getSqlSession();
         BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
         HashMap<String, Object> map = new HashMap();
-        map.put("id","f57b29a306274072a9f41c77005fc9bd");
-        map.put("title","blogNew!!");
+        map.put("id", "f57b29a306274072a9f41c77005fc9bd");
+        map.put("title", "blogNew!!");
         blogMapper.updateBlog(map);
+        sqlSession.close();
+    }
+
+    @Test
+    public void queryBlogForEach() {
+        SqlSession sqlSession = MyBatisUtil.getSqlSession();
+        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        HashMap<String, Object> map = new HashMap();
+        ArrayList<Integer> ids=new ArrayList<>();
+        //ids.add(1);
+        //ids.add(2);
+        map.put("ids", ids);
+        List<Blog> blogList = blogMapper.queryBlogForEach(map);
+        for (Blog blog :
+                blogList) {
+            System.out.println(blog);
+        }
         sqlSession.close();
     }
 }
